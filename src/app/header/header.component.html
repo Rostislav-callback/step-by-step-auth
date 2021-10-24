@@ -1,0 +1,65 @@
+<mat-toolbar class="toolbar" color="primary">
+    <button style="color:#fc38ff;" mat-icon-button aria-label="Example icon button with a home icon">
+        <mat-icon style="color:#fff; font-size: 26px;">menu</mat-icon>
+    </button>
+    <span class="app_label">ToDo App</span>
+    <div class="toolbar_menu-block">
+        <span class="menu_label" style="width: 80px;" routerLink="">
+            Home
+            <mat-icon class="toolbar_menu-icon" aria-hidden="false">home</mat-icon>
+        </span>
+        <span class="menu_label" style="width: 122px;" routerLink="dashboard">
+            Dashboard
+            <mat-icon class="toolbar_menu-icon">dashboard</mat-icon>
+        </span>
+        <span class="menu_label" style="width: 107px;" routerLink="about-us">
+            About Us
+            <mat-icon class="toolbar_menu-icon">question_answer</mat-icon>
+        </span>
+    </div>
+
+    <div class="toolbar_user-menu--block">
+        <div class="toolbar_user-menu-items"
+             [ngClass]="{'invis': isResponse$ | async}">
+            <span class="menu_label" routerLink="login">Login</span>
+            <span class="menu_label" routerLink="signup">Sign Up</span>
+        </div>
+
+        <div *ngIf="isResponse$ | async">
+            <div class="menu-panel" mat-icon-button [matMenuTriggerFor]="menu">
+                <div class="user_avatar-block">
+                    <div class="user_avatar">
+                        <div class="user_photo">
+                            <img class="user_mini-photo" src="">
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div class="arrow-down">
+                    <img src="" 
+                        width="15" 
+                        height="15"
+                        alt="">
+                </div>-->
+            </div>
+
+            <mat-menu #menu="matMenu" class="mat_menu">
+                <button mat-menu-item>
+                    <span><a>Your profile</a></span>
+                </button>
+                <button mat-menu-item>
+                    <span><a routerLink="home">Your home</a></span>
+                </button>
+                <button mat-menu-item>
+                    <span><a>Edit profile</a></span>
+                </button>
+                <button mat-menu-item>
+                    <span><a (click)="logoutChange()" routerLink="login">Log Out</a></span>
+                </button>
+            </mat-menu>            
+        </div>
+    </div>
+    <span class="example-spacer"></span>
+</mat-toolbar>
+
+

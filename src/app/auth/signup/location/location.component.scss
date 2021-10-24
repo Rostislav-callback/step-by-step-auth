@@ -1,0 +1,53 @@
+@import '~@angular/material/theming';
+
+.location_container {
+    height: 400px;
+    width: 300px;
+    margin: 100px auto;
+    text-align: center;
+}
+
+.location_block {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.location_input {
+    width: 240px !important;
+}
+
+.confirm_buttons {
+    width: 300px;
+    display: flex;
+    justify-content: space-evenly;
+    margin-right: 0 !important;
+}
+
+.confirm_button {
+    color: #fc38ff;
+    text-decoration: black;
+    width: 104px;
+}
+
+.icon {
+    color: black;
+    height: 20px;
+    width: 23px;
+    font-size: 20px;
+}
+
+::ng-deep .mat-button-wrapper {
+    color: black;
+}
+
+::ng-deep .mat-form-field.mat-focused .mat-form-field-ripple {
+    background-color: #fc38ff !important;
+}
+
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+    color: #fc38ff !important;
+}
+
+.mat-label {
+    color: #fc38ff !important;
+}

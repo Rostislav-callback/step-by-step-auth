@@ -1,0 +1,49 @@
+<div class="location_container">
+    <form class="location_form-container" [formGroup]="locationDataForm">
+        <div class="location_block">
+            <div class="example-container">
+                <mat-form-field appearance="fill" class="location_input">
+                    <mat-label>Enter your state</mat-label>                   
+                    <input formControlName="state" matInput placeholder="" required>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="location_block">
+            <mat-form-field appearance="fill" class="location_input">
+                <mat-label>Enter your city</mat-label>                   
+                <input formControlName="city" matInput placeholder="" required>
+            </mat-form-field>    
+        </div>
+
+        <div class="location_block">
+            <mat-form-field appearance="fill" class="location_input">
+                <mat-label>Enter your address</mat-label>                   
+                <input formControlName="address" matInput placeholder="" required>
+            </mat-form-field>
+        </div>
+
+        <div class="location_block">
+            <mat-form-field appearance="fill" class="location_input">
+                <mat-label>Enter your zipCode</mat-label>                   
+                <input formControlName="zipCode" matInput placeholder="" required>
+            </mat-form-field>
+        </div>
+
+        <div class="confirm_buttons">
+            <button mat-stroked-button 
+                    class="confirm_button" 
+                    (click)="toPreviousStep()">Back 
+                <mat-icon class="icon">reply</mat-icon>
+            </button>
+            <button mat-stroked-button 
+                    class="confirm_button"
+                    [disabled]="locationDataForm.invalid"
+                    (click)="setLocationUserData()"
+                    [routerLink]="['/home']"
+            >Signup
+                <mat-icon class="icon">input</mat-icon>
+            </button>
+        </div>
+    </form>
+</div>

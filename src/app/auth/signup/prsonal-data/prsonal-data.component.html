@@ -1,0 +1,38 @@
+<div class="data_container">
+    <form class="data_form-container" [formGroup] = "personalDataForm">
+        <div class="data_block">
+            <div class="example-container">
+                <mat-form-field appearance="fill" class="data_input">
+                    <mat-label>Enter your firstName</mat-label>                   
+                    <input formControlName="firstName" matInput placeholder="" required>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="data_block">
+            <mat-form-field appearance="fill" class="data_input">
+                <mat-label>Enter your lastName</mat-label>                   
+                <input formControlName="lastName" matInput placeholder="" required>
+            </mat-form-field>    
+        </div>
+
+        <div class="data_block">
+            <mat-form-field appearance="fill" class="data_input">
+                <mat-label>Enter your phone</mat-label>                   
+                <input formControlName="phone" matInput placeholder="" required>
+            </mat-form-field>
+        </div>
+
+        <div class="confirm_buttons">
+            <!--<button mat-stroked-button class="confirm_button">Cancel 
+                <mat-icon class="icon">backspace</mat-icon>
+            </button>-->
+            <button mat-stroked-button 
+            class="confirm_button"
+            [disabled]="personalDataForm.invalid"
+            (click)="setUserData()">Next 
+                <mat-icon class="icon">arrow_right_alt</mat-icon>
+            </button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,108 @@
+<ng-container *ngIf="isFirstStep$ | async">
+<div class="auth_container">
+    <form class="auth_form-container" [formGroup]="signupForm">
+        <div class="auth_block">
+            <div class="example-container">
+                <mat-form-field appearance="fill" class="auth_input">
+                    <mat-label>Enter your email <mat-icon>mail</mat-icon></mat-label>                   
+                    <input  formControlName="email" 
+                            matInput 
+                            placeholder="" 
+                            required
+                            (input)="changeState($event.target)">
+                </mat-form-field>
+            </div>
+
+            <div class="invalid_email-message">
+                <div *ngIf="(isResponseError$ | async) && email!.valid">
+                    This email is exists!
+                </div>
+    
+                <div *ngIf="email!.invalid && (email!.dirty || email!.touched) && !(isResponseError$ | async)">
+                    Email is required!
+                </div>
+            </div>
+    
+            <div class="valid_email-message" 
+                *ngIf="email!.valid && !(isResponseError$ | async)">
+                Valid email
+            </div>
+        </div>
+
+        <div class="auth_block">
+            <mat-form-field appearance="fill" class="auth_input" >
+                <mat-label>Enter your password</mat-label>
+                <input formControlName="password" matInput [type]="hide ? 'password' : 'text'" required>
+                <button mat-icon-button matSuffix 
+                        (click)="hide = !hide" 
+                        [attr.aria-label]="'Hide password'" 
+                        [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>      
+            
+            <div class="invalid_password-message">
+                <div *ngIf="(noUpperError$ | async)">
+                    Must contain an appercase letter
+                </div>
+                <div *ngIf="(noLowerError$ | async)">
+                    Must contain an lowercase letter
+                </div>
+                <div *ngIf="(noNumberError$ | async)">
+                    Must contain a number
+                </div>
+                <div *ngIf="(isResponseError$ | async) || 
+                (password!.invalid && (password!.dirty || password!.touched))">
+                    Must contain minimum 8 simbols
+                </div>
+            </div>
+        </div>
+
+        <div class="auth_block">
+            <mat-form-field appearance="fill" class="auth_input">
+                <mat-label>Confirm your password</mat-label>
+                <input formControlName="confirmPassword" matInput [type]="hide ? 'password' : 'text'" required>
+                <button mat-icon-button matSuffix 
+                        (click)="hide = !hide" 
+                        [attr.aria-label]="'Hide password'" 
+                        [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+
+            <div class="invalid_password-message"
+                 *ngIf="signupForm.invalid && confirmPassword!.valid">
+                  Password does not match.
+            </div>
+
+            <div class="valid_password-message"
+                 *ngIf="signupForm.valid && !(isResponseError$ | async)">
+                  Password is valid
+            </div>
+        </div>
+
+        <div class="confirm_buttons">
+            <button mat-stroked-button class="confirm_button">Cancel 
+                <mat-icon class="icon">backspace</mat-icon>
+            </button>
+            <button mat-stroked-button 
+                    class="confirm_button"
+                    [disabled]="signupForm.invalid"
+                    (click)="setUserData()">Next 
+                <mat-icon class="icon">arrow_right_alt</mat-icon>
+            </button>
+        </div>
+    </form>
+</div>
+</ng-container>
+
+<ng-container *ngIf="isSecondStep$ | async">
+    <app-prsonal-data></app-prsonal-data>
+</ng-container>
+<!--<app-prsonal-data></app-prsonal-data>-->
+
+<ng-container *ngIf="isThirdStep$ | async">
+    <app-location></app-location>
+</ng-container>
+
+<ng-container *ngIf="passwordValue$ | async"></ng-container>

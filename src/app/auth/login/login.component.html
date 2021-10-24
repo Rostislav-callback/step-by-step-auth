@@ -1,0 +1,45 @@
+<div class="login_container">
+    <form class="login_form-container" [formGroup] = "loginForm">
+        <div class="login_block">
+            <div class="example-container">
+                <mat-form-field appearance="fill" class="login_input">
+                    <mat-label>Enter your email <mat-icon>mail</mat-icon></mat-label>                   
+                    <input formControlName="email" 
+                           matInput 
+                           placeholder=""
+                           required
+                           readonly
+                           onfocus="this.removeAttribute('readonly')">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="login_block">
+            <mat-form-field appearance="fill" class="login_input" >
+                <mat-label>Enter your password</mat-label>
+                <input matInput 
+                       formControlName="password" 
+                       [type]="hide ? 'password' : 'text'" 
+                       required
+                       readonly
+                       onfocus="this.removeAttribute('readonly')">
+                <button mat-icon-button 
+                        matSuffix 
+                        (click)="hide = !hide" 
+                        [attr.aria-label]="'Hide password'" 
+                        [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>        
+        </div>
+
+        <div class="confirm_buttons">
+            <button mat-stroked-button class="confirm_button">Cancel 
+                <mat-icon class="icon">backspace</mat-icon>
+            </button>
+            <button mat-stroked-button class="confirm_button">Next 
+                <mat-icon class="icon">input</mat-icon>
+            </button>
+        </div>
+    </form>
+</div>
