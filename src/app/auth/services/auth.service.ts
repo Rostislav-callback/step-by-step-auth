@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject,  combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { User } from '../../interfaces/user'
 
@@ -106,6 +107,14 @@ export class AuthService {
     localStorage.removeItem('isAuth');
     localStorage.removeItem('Auth User');
     localStorage.removeItem('Password');
+  }
+
+  getSteps() {
+    return combineLatest([this.isFirstStep$, this.isSecondStep$, this.isThirdStep$]).pipe(
+      map(([step1, step2, step3]: any) => {
+        return {step1, step2, step3};
+      })
+    )
   }
 
   isAuth(): boolean {

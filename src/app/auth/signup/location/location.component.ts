@@ -18,7 +18,7 @@ export class LocationComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private authService: AuthService) {
                 this.isResponse$ = this.authService.isResponse$;
-               }
+              }
 
   ngOnInit(): void {
     this.initForm();
@@ -68,5 +68,4 @@ export class LocationComponent implements OnInit {
       zipCode: ['', ...this.validators]
     });
   }
-
 }

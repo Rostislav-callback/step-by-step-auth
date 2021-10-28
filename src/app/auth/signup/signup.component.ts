@@ -3,7 +3,7 @@ import { FormGroup, Validators, ValidationErrors, FormBuilder} from '@angular/fo
 import { Router } from '@angular/router';
 
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map} from 'rxjs/operators';
 
 import { User } from '../../interfaces/user';
 import { AuthService } from '../services/auth.service';
@@ -16,31 +16,21 @@ import { PasswordService } from '../services/password.service'
 })
 export class SignupComponent implements OnInit {
   hide = true;
-  public noUpperError$!: BehaviorSubject<boolean>;
-  public noLowerError$!: BehaviorSubject<boolean>;
-  public noNumberError$!: BehaviorSubject<boolean>;
-  public noSimbolError$!: BehaviorSubject<boolean>;
+
   public isResponseError$!: BehaviorSubject<boolean>;
-  public isFirstStep$!: BehaviorSubject<boolean>;
-  public isSecondStep$!: BehaviorSubject<boolean>;
-  public isThirdStep$!: BehaviorSubject<boolean>;
   public subscription: Subscription;
   public passwordValue$!: Observable<any>;
   public validators = [Validators.required];
   public signupForm!: FormGroup;
+  public errorSream$!: Observable<{error1: any, error2: any, error3: any}>;
+  public stepSream$!: Observable<{step1: any, step2: any, step3: any}>;
+
 
   constructor(private fb: FormBuilder,
               private authService: AuthService,
               private passwordService: PasswordService,
               private router: Router) {
-    this.isFirstStep$ = this.authService.isFirstStep$;
-    this.isSecondStep$ = this.authService.isSecondStep$;
-    this.isThirdStep$ = this.authService.isThirdStep$;
     this.isResponseError$ = this.authService.isResponseError$;
-
-    this.noUpperError$ = this.passwordService.noUpperError$;
-    this.noLowerError$ = this.passwordService.noLowerError$;
-    this.noNumberError$ = this.passwordService.noNumberError$;
 
     this.subscription = this.router.events.subscribe(event => {
       if (event.constructor.name === 'NavigationStart') {
@@ -52,6 +42,9 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
 
+    this.errorSream$ = this.passwordService.getErrors();
+    this.stepSream$ = this.authService.getSteps();
+
     this.passwordValue$ = this.signupForm.valueChanges.pipe(
       map((data: any) => {
         let passValue = data.password  
@@ -59,8 +52,10 @@ export class SignupComponent implements OnInit {
         
         if (letersArray !== null) {
           this.passwordService.passwordCheck(letersArray);
+        } else {
+          this.passwordService.passwordCheck(null);
         }
-
+        
         return data;
       })
     );
@@ -102,13 +97,6 @@ export class SignupComponent implements OnInit {
 
     this.authService.signup(userDataObject);
     this.authService.toSecondAuthStep();
-  }
-
-  changeState(data: any) {
-    let userData = data.value;
-    if (userData === "" && this.signupForm.untouched) {
-      this.isResponseError$.next(false);
-    }
   }
 
   private initForm() {

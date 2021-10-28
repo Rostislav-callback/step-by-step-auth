@@ -1,5 +1,5 @@
-<ng-container *ngIf="isFirstStep$ | async">
-<div class="auth_container">
+<div class="auth_container" *ngIf="stepSream$ | async as steps">
+    <ng-container *ngIf="steps.step1">
     <form class="auth_form-container" [formGroup]="signupForm">
         <div class="auth_block">
             <div class="example-container">
@@ -11,7 +11,7 @@
                             required
                             readonly
                             onfocus="this.removeAttribute('readonly')"
-                            (input)="changeState($event.target)">
+                            >
                 </mat-form-field>
             </div>
 
@@ -38,7 +38,8 @@
                        matInput [type]="hide ? 'password' : 'text'" 
                        required
                        readonly
-                       onfocus="this.removeAttribute('readonly')">
+                       onfocus="this.removeAttribute('readonly')"
+                       >
                 <button mat-icon-button matSuffix 
                         (click)="hide = !hide" 
                         [attr.aria-label]="'Hide password'" 
@@ -47,14 +48,14 @@
                 </button>
             </mat-form-field>      
             
-            <div class="invalid_password-message">
-                <div *ngIf="(noUpperError$ | async)">
+            <div class="invalid_password-message" *ngIf="errorSream$ | async as error">
+                <div *ngIf="error.error1 && (password!.dirty || password!.touched)">
                     Must contain an appercase letter
                 </div>
-                <div *ngIf="(noLowerError$ | async)">
+                <div *ngIf="error.error2 && (password!.dirty || password!.touched)">
                     Must contain an lowercase letter
                 </div>
-                <div *ngIf="(noNumberError$ | async)">
+                <div *ngIf="error.error3 && (password!.dirty || password!.touched)">
                     Must contain a number
                 </div>
                 <div *ngIf="(isResponseError$ | async) || 
@@ -103,16 +104,15 @@
             </button>
         </div>
     </form>
+    </ng-container>
+
+    <ng-container *ngIf="steps.step2">
+        <app-prsonal-data></app-prsonal-data>
+    </ng-container>
+    
+    <ng-container *ngIf="steps.step3">
+        <app-location></app-location>
+    </ng-container>
 </div>
-</ng-container>
-
-<ng-container *ngIf="isSecondStep$ | async">
-    <app-prsonal-data>jopa</app-prsonal-data>
-</ng-container>
-<!--<app-prsonal-data></app-prsonal-data>-->
-
-<ng-container *ngIf="isThirdStep$ | async">
-    <app-location></app-location>
-</ng-container>
 
 <ng-container *ngIf="passwordValue$ | async"></ng-container>

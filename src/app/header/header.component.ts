@@ -24,10 +24,8 @@ export class HeaderComponent implements OnInit {
     
     if (auth === true) {
       this.isResponse$.next(true);
-      console.log(this.isResponse$);
     } else {
       this.isResponse$.next(false);
-      console.log(this.isResponse$);
     }
   }
 
