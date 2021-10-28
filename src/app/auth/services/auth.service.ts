@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router } from "@angular/router";
+
 import { BehaviorSubject } from 'rxjs';
 
 import { User } from '../../interfaces/user'
@@ -15,7 +15,7 @@ export class AuthService {
   public isSecondStep$ = new BehaviorSubject(false);
   public isThirdStep$ = new BehaviorSubject(false);
 
-  constructor(private router: Router) { }
+  constructor() { }
 
   signup(usersDataObject: User) {
     const userData = [];
@@ -32,13 +32,12 @@ export class AuthService {
       const findUser = data.find((user: any) => user.email === usersDataObject.email);
 
       if (findUser) {
-          this.isResponseError$.next(true);
-           
+          this.isResponseError$.next(true);          
       } else {
           data.push(usersDataObject);
       
           localStorage.setItem('Users', JSON.stringify(data));
-          localStorage.setItem('Auth User', JSON.stringify(usersDataObject.email));     
+          localStorage.setItem('Auth User', JSON.stringify(usersDataObject.email));    
       }
     } 
   }

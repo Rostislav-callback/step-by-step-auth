@@ -9,6 +9,8 @@
                             matInput 
                             placeholder="" 
                             required
+                            readonly
+                            onfocus="this.removeAttribute('readonly')"
                             (input)="changeState($event.target)">
                 </mat-form-field>
             </div>
@@ -32,7 +34,11 @@
         <div class="auth_block">
             <mat-form-field appearance="fill" class="auth_input" >
                 <mat-label>Enter your password</mat-label>
-                <input formControlName="password" matInput [type]="hide ? 'password' : 'text'" required>
+                <input formControlName="password" 
+                       matInput [type]="hide ? 'password' : 'text'" 
+                       required
+                       readonly
+                       onfocus="this.removeAttribute('readonly')">
                 <button mat-icon-button matSuffix 
                         (click)="hide = !hide" 
                         [attr.aria-label]="'Hide password'" 
@@ -61,7 +67,11 @@
         <div class="auth_block">
             <mat-form-field appearance="fill" class="auth_input">
                 <mat-label>Confirm your password</mat-label>
-                <input formControlName="confirmPassword" matInput [type]="hide ? 'password' : 'text'" required>
+                <input formControlName="confirmPassword" 
+                       matInput [type]="hide ? 'password' : 'text'" 
+                       required
+                       readonly
+                       onfocus="this.removeAttribute('readonly')">
                 <button mat-icon-button matSuffix 
                         (click)="hide = !hide" 
                         [attr.aria-label]="'Hide password'" 
@@ -87,7 +97,7 @@
             </button>
             <button mat-stroked-button 
                     class="confirm_button"
-                    [disabled]="signupForm.invalid"
+                    [disabled]="signupForm.invalid && !(isResponseError$ | async)"
                     (click)="setUserData()">Next 
                 <mat-icon class="icon">arrow_right_alt</mat-icon>
             </button>
@@ -97,7 +107,7 @@
 </ng-container>
 
 <ng-container *ngIf="isSecondStep$ | async">
-    <app-prsonal-data></app-prsonal-data>
+    <app-prsonal-data>jopa</app-prsonal-data>
 </ng-container>
 <!--<app-prsonal-data></app-prsonal-data>-->
 

@@ -30,13 +30,23 @@
 
 .toolbar_user-menu--block {
   position: absolute; 
-  width: 180px; 
+  height: 60px;
+  right: 20px !important;
+  width: 220px; 
   right: 100px;
 }
 
 .toolbar_user-menu-items {
+  position: relative;
   display: flex;
   justify-content: space-between;
+  right: 20px;
+  top: 10px;
+  padding-top: 2px;
+
+  &.invis {
+    display: none;
+  }
 }
 
 .menu_label:hover > .toolbar_menu-icon{
@@ -82,10 +92,10 @@ width: 100%;
 .user_avatar-block {
   display: flex;
   position: absolute;
-  top: 8px;
-  right: 85px;
-  height: 60px;
-  width: 90px;
+  z-index: 1;
+  right: -10px;
+  height: 40px;
+  width: 60px;
 }
 
 .user_avatar {

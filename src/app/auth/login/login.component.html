@@ -9,7 +9,8 @@
                            placeholder=""
                            required
                            readonly
-                           onfocus="this.removeAttribute('readonly')">
+                           onfocus="this.removeAttribute('readonly')"
+                           (input)="changeState($event.target)">
                 </mat-form-field>
             </div>
         </div>
@@ -37,7 +38,10 @@
             <button mat-stroked-button class="confirm_button">Cancel 
                 <mat-icon class="icon">backspace</mat-icon>
             </button>
-            <button mat-stroked-button class="confirm_button">Next 
+            <button mat-stroked-button 
+                    class="confirm_button" 
+                    [disabled]="loginForm.invalid && !(isResponseError$ | async)"
+                    (click)="confirmLoginData()">Next 
                 <mat-icon class="icon">input</mat-icon>
             </button>
         </div>

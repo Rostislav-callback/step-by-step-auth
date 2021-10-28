@@ -45,11 +45,14 @@ export class LocationComponent implements OnInit {
       "state": this.state?.value,
       "city": this.city?.value,
       "address": this.address?.value,  
-      "zipCode": this.zipCode?.value
+      "zipCode": this.zipCode?.value,
+      "isAuth": true
     }
 
     this.authService.signupSteps(locationDataObject);
     this.isResponse$.next(true);
+    
+    localStorage.setItem('isAuth', 'true'); 
   }
 
   toPreviousStep() {

@@ -21,8 +21,7 @@ export class PasswordService {
       this.noLowerError$.next(true);
     } else if (!findNumber) {
       this.noNumberError$.next(true);
-    }
-    else {
+    } else {
       this.noUpperError$.next(false)
       this.noLowerError$.next(false)
       this.noNumberError$.next(false)
