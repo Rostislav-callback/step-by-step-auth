@@ -1,16 +1,16 @@
 {
   "users": [
     {
-      "email": "qwerty@qwr.com",
+      "email": "qwerty@qwe.com",
       "password": "qwertyW2",
-      "firstname": "vanuek",
-      "lastname": "JJ Adams",
-      "phone": "0995553535",
-      "state": "",
-      "zipCode": "",
-      "city": "",
-      "address": "",
-      "isAuth": false,
+      "firstname": "1",
+      "lastname": "dfdfdf",
+      "phone": "wertyyh",
+      "state": "jopa",
+      "zipCode": "dfdfdfdf",
+      "city": "sdfsdf",
+      "address": "wergf",
+      "isAuth": true,
       "id": 1
     }
   ],

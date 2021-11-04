@@ -93,7 +93,7 @@ export class AuthService {
                 ...newData
               }       
               
-              this.putDataSubs$ = this.userData.updateData(result, userID)
+              /**this.putDataSubs$ =**/ this.userData.updateData(result, userID)
                 .subscribe((data: any) => console.log(userID, data));
 
               return result;
@@ -102,29 +102,25 @@ export class AuthService {
 
           return user;
         });
-
-        console.log(userID);
-        
       })
     ).subscribe(() => {
       this.getDataSubs$.unsubscribe();
-      this.putDataSubs$.unsubscribe();
+      //this.putDataSubs$.unsubscribe();
     })
   }
 
   logout() {
-    const users = JSON.parse(localStorage.getItem('Users')!);
     const authedUser = JSON.parse(localStorage.getItem('Auth User')!);
 
-    const logoutUserStatus = users.map((user: any) => {
+    /**const logoutUserStatus = users.map((user: any) => {
       if (user.email.toLowerCase() === authedUser.toLowerCase()) {
         user.isAuth = false;
       } 
   
       return user;
-    });
+    });**/
 
-    localStorage.setItem('Users', JSON.stringify(logoutUserStatus));
+    //localStorage.setItem('Users', JSON.stringify(logoutUserStatus));
 
     this.isResponse$.next(false);
 

@@ -22,6 +22,7 @@ export class UserDataService {
   }
 
   updateData(data: any, id: any) {
+    console.log('работаем')
     return this.http.put(`http://localhost:3000/users/${id}`, data);
   }
 }
