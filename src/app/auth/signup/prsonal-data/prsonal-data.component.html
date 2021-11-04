@@ -4,7 +4,11 @@
             <div class="example-container">
                 <mat-form-field appearance="fill" class="data_input">
                     <mat-label>Enter your firstName</mat-label>                   
-                    <input formControlName="firstName" matInput placeholder="" required>
+                    <input formControlName="firstName" 
+                           matInput 
+                           required
+                           readonly
+                           onfocus="this.removeAttribute('readonly')">
                 </mat-form-field>
             </div>
         </div>
@@ -12,14 +16,22 @@
         <div class="data_block">
             <mat-form-field appearance="fill" class="data_input">
                 <mat-label>Enter your lastName</mat-label>                   
-                <input formControlName="lastName" matInput placeholder="" required>
+                <input formControlName="lastName" 
+                       matInput  
+                       required
+                       readonly
+                       onfocus="this.removeAttribute('readonly')">
             </mat-form-field>    
         </div>
 
         <div class="data_block">
             <mat-form-field appearance="fill" class="data_input">
                 <mat-label>Enter your phone</mat-label>                   
-                <input formControlName="phone" matInput placeholder="" required>
+                <input formControlName="phone" 
+                       matInput 
+                       required
+                       readonly
+                       onfocus="this.removeAttribute('readonly')">
             </mat-form-field>
         </div>
 

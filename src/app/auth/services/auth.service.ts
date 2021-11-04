@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import { BehaviorSubject,  combineLatest } from 'rxjs';
+import { BehaviorSubject,  combineLatest, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { User } from '../../interfaces/user'
+import { UserDataService } from '../services/user-data.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,36 +13,46 @@ import { User } from '../../interfaces/user'
 export class AuthService {
   public isResponseError$ = new BehaviorSubject(false);
   public isResponse$: BehaviorSubject<boolean> = new BehaviorSubject(this.isAuth());
+  public postDataSubs$!: Subscription;
+  public getDataSubs$!: Subscription;
+  public putDataSubs$!: Subscription;
   
   public isFirstStep$ = new BehaviorSubject(true);
   public isSecondStep$ = new BehaviorSubject(false);
   public isThirdStep$ = new BehaviorSubject(false);
 
-  constructor() { }
-
+  constructor(private userData: UserDataService) { }
+  
   signup(usersDataObject: User) {
-    const userData = [];
+    const postUsersData = this.userData.postData(usersDataObject);
 
-    if (localStorage.getItem('Users') == null) {
-      userData.push(usersDataObject);
+    this.getDataSubs$ = this.userData.getData().pipe(
+      map(data => {
+        if (data === null) {
+          this.postDataSubs$ = postUsersData.subscribe(data => console.log(data));
 
-      localStorage.setItem('Users', JSON.stringify(userData));
-      localStorage.setItem('Auth User', JSON.stringify(usersDataObject.email));
+        } else {
+          const users = Array(data)
+          const findUser = users[0].find((user: any) => {
+            return user.email === usersDataObject.email;
+          });
+              
+          if (findUser) {
+            this.isResponseError$.next(true);  
+            this.isFirstStep$.next(true);
+            this.isSecondStep$.next(false);   
+    
+          } else {
+            this.postDataSubs$ = postUsersData.subscribe(data => console.log(data));
 
-  } else {
-      let data = JSON.parse(localStorage.getItem('Users')!);
-
-      const findUser = data.find((user: any) => user.email === usersDataObject.email);
-
-      if (findUser) {
-          this.isResponseError$.next(true);          
-      } else {
-          data.push(usersDataObject);
-      
-          localStorage.setItem('Users', JSON.stringify(data));
-          localStorage.setItem('Auth User', JSON.stringify(usersDataObject.email));    
-      }
-    } 
+            localStorage.setItem('Auth User', JSON.stringify(usersDataObject.email));    
+          }         
+        }    
+      })
+    ).subscribe(() => {
+      this.getDataSubs$.unsubscribe();
+      this.postDataSubs$.unsubscribe();
+    });
   }
 
   changeErrorState() {
@@ -62,28 +74,42 @@ export class AuthService {
   }
 
   private updateData(newData: any): void {
-    const users = JSON.parse(localStorage.getItem('Users')!);
     const authEmail = JSON.parse(localStorage.getItem('Auth User')!);
 
-    const newUsers = users.map((user: any) => {
-      if (user.email.toLowerCase() === authEmail.toLowerCase()) {
-        const userKeys = Object.keys(user);
-        const newDataKey = Object.keys(newData);
-      
-        const importantKey = userKeys.includes(newDataKey[0], 0);
-        
-        if (importantKey === true) {
-          return {
-            ...user, 
-            ...newData
-          }
-        }
-      } 
+    this.getDataSubs$ = this.userData.getData().pipe(
+      map(data => {
+        let userID: any;
+        Array(data)[0].map((user: any) => {
+          if (user.email.toLowerCase() === authEmail.toLowerCase()) {
+            userID = user.id;
+            const userKeys = Object.keys(user);
+            const newDataKey = Object.keys(newData);
+          
+            const importantKey = userKeys.includes(newDataKey[0], 0);
+            
+            if (importantKey === true) {
+              const result = {
+                ...user, 
+                ...newData
+              }       
+              
+              this.putDataSubs$ = this.userData.updateData(result, userID)
+                .subscribe((data: any) => console.log(userID, data));
 
-      return user;
-    });
-  
-    localStorage.setItem('Users', JSON.stringify(newUsers));
+              return result;
+            }
+          } 
+
+          return user;
+        });
+
+        console.log(userID);
+        
+      })
+    ).subscribe(() => {
+      this.getDataSubs$.unsubscribe();
+      this.putDataSubs$.unsubscribe();
+    })
   }
 
   logout() {
@@ -91,15 +117,14 @@ export class AuthService {
     const authedUser = JSON.parse(localStorage.getItem('Auth User')!);
 
     const logoutUserStatus = users.map((user: any) => {
-        if (user.email.toLowerCase() === authedUser.toLowerCase()) {
-            user.isAuth = false;
-        } 
+      if (user.email.toLowerCase() === authedUser.toLowerCase()) {
+        user.isAuth = false;
+      } 
   
-        return user;
+      return user;
     });
 
     localStorage.setItem('Users', JSON.stringify(logoutUserStatus));
-
 
     this.isResponse$.next(false);
 
@@ -113,6 +138,14 @@ export class AuthService {
     return combineLatest([this.isFirstStep$, this.isSecondStep$, this.isThirdStep$]).pipe(
       map(([step1, step2, step3]: any) => {
         return {step1, step2, step3};
+      })
+    )
+  }
+
+  getRequests(sub1: any, sub2: any, sub3: any) {
+    return combineLatest([this.postDataSubs$, this.getDataSubs$, this.putDataSubs$]).pipe(
+      map(([sub1, sub2, sub3]: any) => {
+        return {sub1, sub2, sub3};
       })
     )
   }

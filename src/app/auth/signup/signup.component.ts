@@ -3,10 +3,11 @@ import { FormGroup, Validators, ValidationErrors, FormBuilder} from '@angular/fo
 import { Router } from '@angular/router';
 
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { User } from '../../interfaces/user';
 import { AuthService } from '../services/auth.service';
+import { UserDataService } from '../services/user-data.service';
 import { PasswordService } from '../services/password.service'
 
 @Component({
@@ -21,7 +22,9 @@ export class SignupComponent implements OnInit {
   public subscription: Subscription;
   public passwordValue$!: Observable<any>;
   public validators = [Validators.required];
+  public data: any;
   public signupForm!: FormGroup;
+  public getUsers$!: Subscription;
   public errorSream$!: Observable<{error1: any, error2: any, error3: any}>;
   public stepSream$!: Observable<{step1: any, step2: any, step3: any}>;
 
@@ -29,7 +32,8 @@ export class SignupComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private authService: AuthService,
               private passwordService: PasswordService,
-              private router: Router) {
+              private router: Router,
+              private userData: UserDataService) {
     this.isResponseError$ = this.authService.isResponseError$;
 
     this.subscription = this.router.events.subscribe(event => {
@@ -41,7 +45,7 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-
+    
     this.errorSream$ = this.passwordService.getErrors();
     this.stepSream$ = this.authService.getSteps();
 

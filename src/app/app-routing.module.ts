@@ -7,6 +7,8 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { CommonModule } from '@angular/common';
+import { UserProfileComponent } from './user/user-profile/user-profile.component';
+import { UserSettingsComponent } from './user/user-settings/user-settings.component';
 
 const routes: Routes = [];
 
@@ -16,7 +18,9 @@ const routes: Routes = [];
     {path: 'dashboard', component: DashboardComponent},
     {path: 'about-us', component: AboutUsComponent},
     {path: 'login', component: LoginComponent},
-    {path: 'signup', component: SignupComponent}
+    {path: 'signup', component: SignupComponent},
+    {path: 'settings', component: UserSettingsComponent},
+    {path: 'profile', component: UserProfileComponent}
     ]),
     CommonModule
   ],

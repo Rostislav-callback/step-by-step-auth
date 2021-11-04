@@ -4,7 +4,11 @@
             <div class="example-container">
                 <mat-form-field appearance="fill" class="location_input">
                     <mat-label>Enter your state</mat-label>                   
-                    <input formControlName="state" matInput placeholder="" required>
+                    <input formControlName="state" 
+                           matInput 
+                           required
+                           readonly
+                           onfocus="this.removeAttribute('readonly')">
                 </mat-form-field>
             </div>
         </div>
@@ -12,21 +16,33 @@
         <div class="location_block">
             <mat-form-field appearance="fill" class="location_input">
                 <mat-label>Enter your city</mat-label>                   
-                <input formControlName="city" matInput placeholder="" required>
+                <input formControlName="city" 
+                       matInput 
+                       required
+                       readonly
+                       onfocus="this.removeAttribute('readonly')">
             </mat-form-field>    
         </div>
 
         <div class="location_block">
             <mat-form-field appearance="fill" class="location_input">
                 <mat-label>Enter your address</mat-label>                   
-                <input formControlName="address" matInput placeholder="" required>
+                <input formControlName="address" 
+                matInput 
+                required
+                readonly
+                onfocus="this.removeAttribute('readonly')">
             </mat-form-field>
         </div>
 
         <div class="location_block">
             <mat-form-field appearance="fill" class="location_input">
                 <mat-label>Enter your zipCode</mat-label>                   
-                <input formControlName="zipCode" matInput placeholder="" required>
+                <input formControlName="zipCode" 
+                matInput 
+                required
+                readonly
+                onfocus="this.removeAttribute('readonly')">
             </mat-form-field>
         </div>
 
